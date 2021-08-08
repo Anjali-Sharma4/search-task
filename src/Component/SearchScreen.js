@@ -1,12 +1,11 @@
 import React,{useEffect,useState} from 'react'
 
-const jsondata = require('../JsonFile/react-test-data.json')
+import jsondata from "../JsonFile/react-test-data.json";
 
 function SearchScreen() {
 const [data,setData] = useState([])
 const [search, setSearch] = useState("");
 const [filteredData, setFilteredData] = useState([]);
-//const [rating,setRating] = useState();
 const [filteredRating,setFilteredRating] = useState([]);
 
 
@@ -17,7 +16,6 @@ const [filteredRating,setFilteredRating] = useState([]);
     },[])
 
     useEffect(() => {
-    console.log("in useeee")
     setFilteredData(
       data.filter((d) =>
         d.Name.toLowerCase().includes(search.toLowerCase()) ||
@@ -29,8 +27,9 @@ const [filteredRating,setFilteredRating] = useState([]);
     }, [search, data ]);
 
     const handleRating = (e) => {
+        let trial = [...filteredData]
          setFilteredData(
-          data.filter((d) =>
+          trial.filter((d) =>
               d.Rating === parseInt(e.target.value)
           )
     );
@@ -69,18 +68,30 @@ const [filteredRating,setFilteredRating] = useState([]);
                           </thead>
                           <tbody>
                           {filteredData.map((d,index) =>{
-                            const cusine_style = d['Cuisine Style']
-                            const r = cusine_style.slice(1,-1)
+                            let cuisines = d["Cuisine Style"]
+                              .substring(1, d["Cuisine Style"].length - 2)
+                              .split(",");
+
 
                             return(
                             <tr key={index}>
                               <td>{d.Name}</td>
                               <td>{d.City}</td>
-                              <td>{cusine_style}
-                             {/*{r.map((style) =>{
-                                return(<p>{style}</p>)
-
-                              })}*/}
+                              <td>
+                                    {cuisines.map(cuisine => {
+                                      let cuisineToShow = cuisine.substring(
+                                        1,
+                                        cuisine.length - 1
+                                      );
+                                      cuisineToShow = cuisineToShow.includes("'")
+                                        ? cuisineToShow.substring(1, cuisineToShow.length)
+                                        : cuisineToShow;
+                                      return (
+                                        <div>
+                                          {cuisineToShow}
+                                        </div>
+                                      );
+                                    })}
                               </td>
                               <td>{d.Ranking}</td>
                               <td>{d.Rating}</td>
