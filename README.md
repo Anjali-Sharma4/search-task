@@ -8,4 +8,4 @@ Process for run this project in your system:
 
 Now You are able to run and check this task.
 
-All Screenshots images in public folder.
+All Output Screenshots images in public folder.
